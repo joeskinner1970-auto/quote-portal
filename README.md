@@ -1,23 +1,9 @@
-# Automotivate Website
+# Auto Quote Portal
 
-The multi-page Automotivate Fleet Solutions website, built with Next.js and prepared for deployment to Vercel from GitHub.
+A standalone staff quotation portal. It is configured for a new, empty Sanity project and has no connection to Automotivate services, data, accounts, or domains.
 
-## Vercel deployment
+## Setup
 
-- Framework: Next.js
-- Build command: `npm run build`
-- Development command: `npm run dev`
-- Node.js: 22 or later
+Copy `.env.example` to `.env.local` for local use. Add the same values in Vercel before deploying. `RESEND_FROM_EMAIL` must be an address on a domain you have verified in Resend.
 
-Vercel can automatically build and publish the production branch whenever an approved change is merged into `main`.
-
-## Pages
-
-- Home
-- Vehicles
-- Conversions
-- Finance
-- Fleet Services
-- Stock
-- About
-- Contact
+The new portal starts without staff accounts, vehicles, customers, or quotes. Create the first management user after deployment from the Sanity Studio included with this project.
