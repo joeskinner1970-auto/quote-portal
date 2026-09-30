@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { FormEvent, useState } from "react";
 import styles from "../staff.module.css";
@@ -50,7 +50,7 @@ export function UserManager({ initialUsers }: { initialUsers: PortalUser[] }) {
     {editing && <div className={styles.editorBackdrop} onClick={event => { if (event.target === event.currentTarget) setEditing(null); }}><form className={styles.editorCard} onSubmit={save}>
       <h2>{editing._id ? "Edit portal user" : "Add portal user"}</h2>
       <label><span>Name</span><input required value={editing.name} onChange={event => setEditing({ ...editing, name: event.target.value })}/></label>
-      <label><span>Auto Quote email</span><input required type="email" value={editing.email} onChange={event => setEditing({ ...editing, email: event.target.value })}/></label>
+      <label><span>DreamLease email</span><input required type="email" value={editing.email} onChange={event => setEditing({ ...editing, email: event.target.value })}/></label>
       <label><span>HubSpot User ID</span><input inputMode="numeric" value={editing.hubspotUserId || ""} onChange={event => setEditing({ ...editing, hubspotUserId: event.target.value })} placeholder="For example, 30999490"/><small>New deals will be assigned to this HubSpot user.</small></label>
       <label><span>Access level</span><select value={editing.role} onChange={event => setEditing({ ...editing, role: event.target.value as PortalUser["role"] })}><option value="sales">Sales: own quotes only</option><option value="management">Management: all records</option></select></label>
       <label className={styles.checkLabel}><input type="checkbox" checked={editing.active} onChange={event => setEditing({ ...editing, active: event.target.checked })}/><span>Account active</span></label>
@@ -58,3 +58,4 @@ export function UserManager({ initialUsers }: { initialUsers: PortalUser[] }) {
     </form></div>}
   </section>;
 }
+

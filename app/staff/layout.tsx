@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
@@ -7,4 +7,5 @@ export const metadata: Metadata = {
 export default function StaffLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;
 }
+
 

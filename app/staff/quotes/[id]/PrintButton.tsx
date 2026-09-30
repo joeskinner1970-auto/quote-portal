@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 export function PrintButton({ href }: { href: string }) {
   return (
@@ -10,3 +10,4 @@ export function PrintButton({ href }: { href: string }) {
     </button>
   );
 }
+
