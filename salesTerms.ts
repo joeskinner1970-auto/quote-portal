@@ -1,0 +1,2 @@
+export const salesTerms = ["This quotation is an invitation to treat and is subject to confirmation of availability, specification, price, tax and delivery details.", "The customer should review the final quotation and any supplier or finance documentation before placing an order."];
+export const salesTermsPdfText = salesTerms.join(" ");
