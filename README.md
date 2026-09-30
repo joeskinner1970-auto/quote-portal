@@ -1,6 +1,6 @@
-# Auto Quote Portal
+# DreamLease Quote Portal
 
-A standalone staff quotation portal. It is configured for a new, empty Sanity project and has no connection to Automotivate services, data, accounts, or domains.
+A standalone staff quotation portal with DreamLease-inspired branding. It is configured for a new, empty Sanity project and has no connection to Automotivate services, data, accounts, or domains.
 
 ## Setup
 
