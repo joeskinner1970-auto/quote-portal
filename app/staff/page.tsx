@@ -1,29 +1,7 @@
-'use client';
+import { redirect } from "next/navigation";
+import { getStaffSession } from "../lib/staffAuth";
+import styles from "./staff.module.css";
 
-import { FormEvent, useMemo, useState } from 'react';
+export const metadata={title:"Management dashboard | Auto Quote"};
+export default async function StaffHome(){const session=await getStaffSession();if(!session)redirect("/staff/login");if(session.role!=="management")redirect("/staff/quotes/new");return <main className={styles.portal}><header className={styles.portalHeader}><div className={styles.portalBranding}><a className={styles.portalLogo} href="/staff" aria-label="Management dashboard"><img src="/automotivate-logo.png" alt="Auto Quote"/></a><img className={styles.leasingLogo} src="/automotivate-leasing-logo.png" alt="Auto Quote" /></div><div><strong>{session.name}</strong><span>Management</span></div><a href="/staff">Dashboard</a><a href="/staff/quotes/new">New quote</a><form action="/api/staff-auth/logout" method="post"><button className={styles.textButton}>Sign out</button></form></header><div className={styles.pageHeading}><p className={styles.eyebrow}>Private staff area</p><h1>Management dashboard</h1><p>Choose what you need to manage.</p></div><section className={styles.managementCards}><a href="/staff/quotes/new"><strong>New quote</strong><span>Create, preview and save a customer quotation.</span></a><a href="/staff/quotes"><strong>All quotes</strong><span>Search quotations, update statuses and create revisions.</span></a><a href="/staff/vehicles"><strong>Vehicle pricing</strong><span>Maintain the shared catalogue and import updated files.</span></a><a href="/staff/users"><strong>Portal users</strong><span>Add salespeople and control their access level.</span></a><a href="/staff/audit"><strong>Audit log</strong><span>Review quote, catalogue, pricing and access changes.</span></a></section></main>}
 
-type Quote = { customer: string; email: string; vehicle: string; registration: string; price: string; notes: string };
-
-export default function StaffQuotePortal() {
-  const [quote, setQuote] = useState<Quote>({ customer: '', email: '', vehicle: '', registration: '', price: '', notes: '' });
-  const [saved, setSaved] = useState(false);
-  const reference = useMemo(() => 'AQ-' + new Date().toISOString().slice(0, 10).replaceAll('-', '') + '-' + Math.random().toString(36).slice(2, 6).toUpperCase(), []);
-  const update = (key: keyof Quote, value: string) => setQuote(current => ({ ...current, [key]: value }));
-  const submit = (event: FormEvent) => { event.preventDefault(); setSaved(true); };
-  return (
-    <main style={{ maxWidth: 920, margin: '0 auto', padding: '48px 20px', fontFamily: 'Arial, sans-serif', color: '#172033' }}>
-      <header style={{ marginBottom: 32 }}><p style={{ color: '#64748b', margin: 0 }}>STAFF AREA</p><h1 style={{ margin: '8px 0' }}>Auto Quote Portal</h1><p style={{ color: '#475569' }}>Create a clear vehicle quotation for your customer.</p></header>
-      <form onSubmit={submit} style={{ display: 'grid', gap: 16, background: '#f8fafc', padding: 24, borderRadius: 12 }}>
-        <h2 style={{ margin: 0 }}>New quotation</h2>
-        <label>Customer name<input required value={quote.customer} onChange={e => update('customer', e.target.value)} style={{ display: 'block', width: '100%', marginTop: 6, padding: 10 }} /></label>
-        <label>Customer email<input type="email" value={quote.email} onChange={e => update('email', e.target.value)} style={{ display: 'block', width: '100%', marginTop: 6, padding: 10 }} /></label>
-        <label>Vehicle<input required value={quote.vehicle} onChange={e => update('vehicle', e.target.value)} placeholder="Make, model and specification" style={{ display: 'block', width: '100%', marginTop: 6, padding: 10 }} /></label>
-        <label>Registration<input value={quote.registration} onChange={e => update('registration', e.target.value)} style={{ display: 'block', width: '100%', marginTop: 6, padding: 10 }} /></label>
-        <label>Quoted price (£)<input required inputMode="decimal" value={quote.price} onChange={e => update('price', e.target.value)} style={{ display: 'block', width: '100%', marginTop: 6, padding: 10 }} /></label>
-        <label>Notes<textarea value={quote.notes} onChange={e => update('notes', e.target.value)} rows={4} style={{ display: 'block', width: '100%', marginTop: 6, padding: 10 }} /></label>
-        <button type="submit" style={{ padding: '12px 18px', border: 0, borderRadius: 8, background: '#0f4c81', color: 'white', fontWeight: 700 }}>Create quotation</button>
-      </form>
-      {saved && <section style={{ marginTop: 28, padding: 24, border: '1px solid #cbd5e1', borderRadius: 12 }}><p style={{ color: '#166534', fontWeight: 700 }}>Quotation ready</p><h2>{quote.customer || 'Customer'} — {quote.vehicle}</h2><p>Reference: {reference}</p><p>Registration: {quote.registration || 'Not provided'}</p><p>Quoted price: £{quote.price}</p><p>{quote.notes}</p><button onClick={() => window.print()} style={{ padding: '10px 16px', borderRadius: 8 }}>Print or save as PDF</button></section>}
-    </main>
-  );
-}

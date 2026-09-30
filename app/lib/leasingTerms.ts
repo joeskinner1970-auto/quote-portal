@@ -1,0 +1,2 @@
+export const leasingTerms = ["Finance and leasing quotations are subject to funder approval, availability and the terms of the final agreement.", "The customer should review all payment, mileage, maintenance and end-of-contract terms before proceeding."];
+export const leasingTermsPdfText = leasingTerms.join(" ");
