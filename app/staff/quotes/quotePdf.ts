@@ -66,11 +66,11 @@ export async function createQuotePdf(input: QuoteInput, options: { quoteNumber?:
   meta.forEach((part,index)=>{ const font=index===0?bold:regular, colour=index===0?darkBlue:ink; text(part,left+width-font.widthOfTextAtSize(part,index===0?10:8.5),y-index*13,index===0?10:8.5,font,colour); });
   y-=isLeasing ? 112 : 102; line(y,2.3,blue); y-=25; text(quoteTitle,left,y,18,bold,darkBlue); y-=18;
 
-  formRow("Company:", input.customerCompany); formRow("Address:", [input.address1,input.address2,input.town].filter(Boolean).join(", ")); formRow("Postcode:",input.postcode); formRow("Contact:",input.customerContact); formRow("Email:",input.customerEmail); formRow("Tel No:",input.customerTelephone); formRow("No. Required:",String(input.quantity)); y-=12;
+  formRow("Company:", input.customerCompany); formRow("Address:", [input.address1,input.address2,input.town].filter(Boolean).join(", ")); formRow("Postcode:",input.postcode); formRow("Contact:",input.customerContact); formRow("Email:",input.customerEmail); formRow("Tel No:",input.customerTelephone); y-=12;
   if (input.quoteType === "asset-finance") {
-    formRow("Asset details:", input.assetDetails); formRow("Funder:", input.funder); moneyRow("FINANCE COMMISSION", input.financeCommission, "total");
+    formRow("Asset details:", input.assetDetails); formRow("Funder:", input.funder); formRow("No. Required:",String(input.quantity)); moneyRow("FINANCE COMMISSION", input.financeCommission, "total");
   } else {
-  formRow("Make:",input.vehicleMake); formRow("Model:",input.vehicleModel); formRow("Variant:",input.vehicleVariant); formRow("Model year:",input.modelYear); formRow("Transmission:",input.transmission); formRow("Body type:",input.bodyType); formRow("CO2:",`${input.co2} g/km`); formRow("P11D:",money(input.p11d)); formRow("Colour:",input.colour);
+  formRow("Make:",input.vehicleMake); formRow("Model:",input.vehicleModel); formRow("Variant:",input.vehicleVariant); formRow("Model year:",input.modelYear); formRow("Transmission:",input.transmission); formRow("Body type:",input.bodyType); formRow("CO2:",`${input.co2} g/km`); formRow("P11D:",money(input.p11d)); formRow("Colour:",input.colour); formRow("No. Required:",String(input.quantity));
   if (isLeasing) {
     y -= 12;
     const section = (title: string) => { ensure(25); page.drawRectangle({ x: left, y: y - 25, width, height: 25, color: blue, borderColor: blue, borderWidth: .6 }); text(title, left + 8, y - 17, 10, bold, rgb(1,1,1)); y -= 25; };
