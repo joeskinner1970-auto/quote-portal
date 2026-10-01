@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import styles from "../staff.module.css";
 
-export type PortalUser = { _id?: string; name: string; email: string; hubspotUserId?: string; role: "sales" | "management"; active: boolean; password?: string };
+export type PortalUser = { _id?: string; name: string; email: string; hubspotUserId?: string; role: "sales" | "management"; active: boolean; password?: string; primaryAdministrator?: boolean };
 const empty: PortalUser = { name: "", email: "", hubspotUserId: "", role: "sales", active: true, password: "" };
 
 export function UserManager({ initialUsers }: { initialUsers: PortalUser[] }) {
@@ -41,11 +41,10 @@ export function UserManager({ initialUsers }: { initialUsers: PortalUser[] }) {
     <button className={styles.primaryButton} onClick={() => setEditing(empty)}>Add portal user</button>
     {error && <p className={styles.error}>{error}</p>}
     <div className={styles.userList}>{users.map(user => <article key={user._id || user.email}>
-      <div><strong>{user.name}</strong><span>{user.email}</span>{user.hubspotUserId && <span>HubSpot User ID: {user.hubspotUserId}</span>}</div>
+      <div><strong>{user.name}</strong><span>{user.email}</span>{user.primaryAdministrator && <span>Primary administrator</span>}{user.hubspotUserId && <span>HubSpot User ID: {user.hubspotUserId}</span>}</div>
       <span className={styles.statusBadge}>{user.role === "management" ? "Management" : "Sales"}</span>
       <span className={`${styles.statusBadge} ${user.active ? styles.status_accepted : styles.status_superseded}`}>{user.active ? "Active" : "Disabled"}</span>
-      <button onClick={() => setEditing({ ...user, password: "" })} disabled={busy}>Edit</button>
-      <button className={styles.removeButton} onClick={() => remove(user)} disabled={busy}>Delete</button>
+      {user.primaryAdministrator ? <span className={styles.statusBadge}>Protected</span> : <><button onClick={() => setEditing({ ...user, password: "" })} disabled={busy}>Edit</button><button className={styles.removeButton} onClick={() => remove(user)} disabled={busy}>Delete</button></>}
     </article>)}</div>
     {editing && <div className={styles.editorBackdrop} onClick={event => { if (event.target === event.currentTarget) setEditing(null); }}><form className={styles.editorCard} onSubmit={save}>
       <h2>{editing._id ? "Edit portal user" : "Add portal user"}</h2>
