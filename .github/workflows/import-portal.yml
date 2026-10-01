@@ -17,22 +17,3 @@ jobs:
           git add app sanity public globals.css package.json pnpm-lock.yaml pnpm-workspace.yaml next-env.d.ts next.config.ts postcss.config.mjs .env.example README.md tsconfig.json
           git diff --cached --quiet || git commit -m 'Add DreamLease legal information to quotes'
           git push
-name: Import staff quote portal
-on:
-  workflow_dispatch:
-permissions:
-  contents: write
-jobs:
-  import:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Expand the portal source
-        run: |
-          unzip -o portal-replace-073943.zip || unzip_code=$?
-          if [ "${unzip_code:-0}" -gt 1 ]; then exit "$unzip_code"; fi
-          git config user.name 'GitHub Actions'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add app sanity public globals.css package.json pnpm-lock.yaml pnpm-workspace.yaml next-env.d.ts next.config.ts postcss.config.mjs .env.example README.md tsconfig.json
-          git diff --cached --quiet || git commit -m 'Replace catalogue and merge duplicate CSV rows'
-          git push
