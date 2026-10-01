@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 export function DeleteQuoteButton({ action, quoteReference }: { action: string; quoteReference: string }) {
   return <form action={action} method="post" onSubmit={event => {

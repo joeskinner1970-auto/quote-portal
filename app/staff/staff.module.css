@@ -1,4 +1,4 @@
-﻿@media (max-width: 600px) { .pipelineChartHeading, .pipelineChartActions { align-items: stretch; flex-direction: column; } .pipelineChartActions > strong { text-align: left; } .pipelinePeriodForm { justify-content: space-between; } }
+@media (max-width: 600px) { .pipelineChartHeading, .pipelineChartActions { align-items: stretch; flex-direction: column; } .pipelineChartActions > strong { text-align: left; } .pipelinePeriodForm { justify-content: space-between; } }
 .portal { min-height: 100vh; padding: 32px; color: #252525; background: #f4f4f4; }
 :global(body):has(.portal) > :global(.site-header), :global(body):has(.portal) > :global(.site-footer), :global(body):has(.previewPage) > :global(.site-header), :global(body):has(.previewPage) > :global(.site-footer) { display: none !important; }
 .portalHeader { max-width: 1400px; margin: 0 auto 32px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; background: white; border: 1px solid #dedede; border-radius: 8px; }
@@ -282,18 +282,15 @@
 /* DreamLease-inspired staff portal identity */
 .portal { background: #eeeeee; }
 .portalHeader { border-radius: 0; border-top: 4px solid #e31b23; box-shadow: 0 8px 24px rgba(34,34,34,.06); }
-.portalWordmark { display: inline-flex; align-items: baseline; color: #222222 !important; font-size: 28px; font-weight: 800; letter-spacing: -.07em; line-height: 1; white-space: nowrap; }
-.portalWordmark b { color: #e31b23; font-weight: 850; }
+.portalLogoImage { display: block; width: 190px; height: auto; }
 .portalHeader .portalLogo { display: inline-flex; align-items: center; min-height: 36px; text-decoration: none; }
 .portalHeader .portalBranding { gap: 12px; }
 .portalHeader .portalBranding::after { content: "STAFF QUOTE PORTAL"; padding-left: 12px; border-left: 1px solid #dedede; color: #686868; font-size: 10px; font-weight: 800; letter-spacing: .12em; }
 .loginCard { border-top: 5px solid #e31b23; box-shadow: 0 24px 70px rgba(34,34,34,.14); }
 .loginBranding { margin-bottom: 30px; }
-.loginBranding .portalWordmark { font-size: 34px; }
+.loginLogoImage { display: block; width: min(251px, 100%); height: auto; }
 .primaryButton, .previewButton { background: #31c65b; color: #112017; }
 .primaryButton:hover, .previewButton:hover { background: #27ad4d; }
 .pageHeading h1, .section legend { color: #222222; }
 .quotePaper > header, .quotePaper footer { border-color: #e31b23; }
-.quoteWordmark { display: inline-flex; color: #222222; font-size: 30px; font-weight: 850; letter-spacing: -.07em; line-height: 1; }
-.quoteWordmark b { color: #e31b23; }
-.quoteBrand .quoteWordmark { margin-bottom: 8px; }
+.quoteLogoImage { display: block; width: 190px; height: auto; margin-bottom: 8px; }

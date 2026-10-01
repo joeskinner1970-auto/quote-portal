@@ -1,4 +1,4 @@
-﻿import { redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { getStaffSession } from "../../lib/staffAuth";
 import { staffSanityClient, staffScopeParams } from "../../lib/staffSanity";
 import { UserManager, PortalUser } from "./UserManager";

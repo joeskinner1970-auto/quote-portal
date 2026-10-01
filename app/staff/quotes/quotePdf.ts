@@ -31,7 +31,7 @@ export async function createQuotePdf(input: QuoteInput, options: { quoteNumber?:
   const quoteTitle = options.isOrder ? "Sales Order" : input.quoteType === "finance-lease" ? "Finance Lease Quotation" : input.quoteType === "leasing" ? "Leasing Quotation" : input.quoteType === "asset-finance" ? "Asset Finance Quotation" : "Sales Quotation";
   let logo: Awaited<ReturnType<typeof pdf.embedPng>> | undefined;
   try {
-    const logoBytes = await readFile(path.join(process.cwd(), "public", isLeasing ? "automotivate-leasing-logo.png" : "automotivate-logo.png"));
+    const logoBytes = await readFile(path.join(process.cwd(), "public", "dreamlease-logo.png"));
     logo = await pdf.embedPng(logoBytes);
   } catch (error) {
     console.error("[staff-quotes:pdf-logo]", error);

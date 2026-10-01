@@ -1,4 +1,4 @@
-﻿import { redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { getStaffSession } from "../../lib/staffAuth";
 import { staffDataEnvironment, staffSanityClient, staffScopeFilter, staffScopeParams } from "../../lib/staffSanity";
 import { uploadedQuoteVehicles } from "../quotes/quoteVehicles";
@@ -13,7 +13,7 @@ export default async function VehiclePricingPage(){
  const sourceIds=new Set(uploadedQuoteVehicles.map(x=>x.id));
  const vehicles:ManagedVehicle[]=catalogue?.initialised?saved:uploadedQuoteVehicles.map(source=>{const managed=bySource.get(source.id)||byName.get(`${source.make}\n${source.model}`);return managed?{...managed,sourceId:source.id}:{sourceId:source.id,make:source.make,model:source.model,price:source.price,active:true};});
  if(!catalogue?.initialised)for(const item of saved)if(!item.sourceId||!sourceIds.has(item.sourceId))if(!vehicles.some(x=>x._id===item._id))vehicles.push(item);
- return <main className={styles.portal}><header className={styles.portalHeader}><a className={styles.portalLogo} href="/staff" aria-label="Management dashboard"><span className={styles.portalWordmark}><span>Dream</span><b>Lease</b></span></a><div><strong>{session.name}</strong><span>Management</span></div><a href="/staff">Dashboard</a><a href="/staff/quotes/new">New quote</a><a href="/staff/quotes">All quotes</a><form action="/api/staff-auth/logout" method="post"><button className={styles.textButton}>Sign out</button></form></header><div className={styles.pageHeading}><p className={styles.eyebrow}>Management</p><h1>Vehicle pricing</h1><p>The approved catalogue used by every new quote. Changes take effect immediately after saving.</p><span className={styles.environmentBadge}>{staffDataEnvironment === "prototype" ? "Prototype catalogue" : "Live catalogue"}</span></div><VehicleManager initialVehicles={vehicles} sourceVehicles={uploadedQuoteVehicles} importHistory={history}/></main>;
+ return <main className={styles.portal}><header className={styles.portalHeader}><a className={styles.portalLogo} href="/staff" aria-label="Management dashboard"><img className={styles.portalLogoImage} src="/dreamlease-logo.png" alt="DreamLease" /></a><div><strong>{session.name}</strong><span>Management</span></div><a href="/staff">Dashboard</a><a href="/staff/quotes/new">New quote</a><a href="/staff/quotes">All quotes</a><form action="/api/staff-auth/logout" method="post"><button className={styles.textButton}>Sign out</button></form></header><div className={styles.pageHeading}><p className={styles.eyebrow}>Management</p><h1>Vehicle pricing</h1><p>The approved catalogue used by every new quote. Changes take effect immediately after saving.</p><span className={styles.environmentBadge}>{staffDataEnvironment === "prototype" ? "Prototype catalogue" : "Live catalogue"}</span></div><VehicleManager initialVehicles={vehicles} sourceVehicles={uploadedQuoteVehicles} importHistory={history}/></main>;
 }
 
 
