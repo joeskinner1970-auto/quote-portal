@@ -8,6 +8,7 @@ export const staffUser = defineType({
     defineField({ name: "name", title: "Name", type: "string", validation: (rule) => rule.required() }),
     defineField({ name: "email", title: "Email", type: "string", validation: (rule) => rule.required().email() }),
     defineField({ name: "hubspotUserId", title: "HubSpot User ID", type: "string", description: "Used to assign new HubSpot deals to this portal user." }),
+    defineField({ name: "passwordHash", title: "Password hash", type: "string", hidden: true, readOnly: true }),
     defineField({
       name: "role",
       title: "Access level",

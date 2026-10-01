@@ -3,8 +3,8 @@
 import { FormEvent, useState } from "react";
 import styles from "../staff.module.css";
 
-export type PortalUser = { _id?: string; name: string; email: string; hubspotUserId?: string; role: "sales" | "management"; active: boolean };
-const empty: PortalUser = { name: "", email: "", hubspotUserId: "", role: "sales", active: true };
+export type PortalUser = { _id?: string; name: string; email: string; hubspotUserId?: string; role: "sales" | "management"; active: boolean; password?: string };
+const empty: PortalUser = { name: "", email: "", hubspotUserId: "", role: "sales", active: true, password: "" };
 
 export function UserManager({ initialUsers }: { initialUsers: PortalUser[] }) {
   const [users, setUsers] = useState(initialUsers);
@@ -44,13 +44,14 @@ export function UserManager({ initialUsers }: { initialUsers: PortalUser[] }) {
       <div><strong>{user.name}</strong><span>{user.email}</span>{user.hubspotUserId && <span>HubSpot User ID: {user.hubspotUserId}</span>}</div>
       <span className={styles.statusBadge}>{user.role === "management" ? "Management" : "Sales"}</span>
       <span className={`${styles.statusBadge} ${user.active ? styles.status_accepted : styles.status_superseded}`}>{user.active ? "Active" : "Disabled"}</span>
-      <button onClick={() => setEditing(user)} disabled={busy}>Edit</button>
+      <button onClick={() => setEditing({ ...user, password: "" })} disabled={busy}>Edit</button>
       <button className={styles.removeButton} onClick={() => remove(user)} disabled={busy}>Delete</button>
     </article>)}</div>
     {editing && <div className={styles.editorBackdrop} onClick={event => { if (event.target === event.currentTarget) setEditing(null); }}><form className={styles.editorCard} onSubmit={save}>
       <h2>{editing._id ? "Edit portal user" : "Add portal user"}</h2>
       <label><span>Name</span><input required value={editing.name} onChange={event => setEditing({ ...editing, name: event.target.value })}/></label>
       <label><span>DreamLease email</span><input required type="email" value={editing.email} onChange={event => setEditing({ ...editing, email: event.target.value })}/></label>
+      <label><span>{editing._id ? "New password" : "Password"}</span><input required={!editing._id} type="password" minLength={8} value={editing.password || ""} onChange={event => setEditing({ ...editing, password: event.target.value })} autoComplete="new-password"/><small>{editing._id ? "Leave blank to keep the current password." : "Use at least 8 characters."}</small></label>
       <label><span>HubSpot User ID</span><input inputMode="numeric" value={editing.hubspotUserId || ""} onChange={event => setEditing({ ...editing, hubspotUserId: event.target.value })} placeholder="For example, 30999490"/><small>New deals will be assigned to this HubSpot user.</small></label>
       <label><span>Access level</span><select value={editing.role} onChange={event => setEditing({ ...editing, role: event.target.value as PortalUser["role"] })}><option value="sales">Sales: own quotes only</option><option value="management">Management: all records</option></select></label>
       <label className={styles.checkLabel}><input type="checkbox" checked={editing.active} onChange={event => setEditing({ ...editing, active: event.target.checked })}/><span>Account active</span></label>

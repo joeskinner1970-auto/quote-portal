@@ -1,5 +1,5 @@
 import "server-only";
-import { createHmac, randomInt, timingSafeEqual } from "node:crypto";
+import { createHmac, randomBytes, randomInt, scryptSync, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 
 export type StaffRole = "sales" | "management";
@@ -15,3 +15,5 @@ export async function getStaffSession() { return readStaffSessionValue((await co
 export function createLoginCode() { return String(randomInt(100000, 1000000)); }
 export function hashLoginCode(email: string, code: string) { return createHmac("sha256", secret()).update(`${email.toLowerCase()}:${code}`).digest("hex"); }
 export function safeEquals(left: string, right: string) { const a = Buffer.from(left), b = Buffer.from(right); return a.length === b.length && timingSafeEqual(a, b); }
+export function hashStaffPassword(password: string) { const salt = randomBytes(16).toString("hex"); const hash = scryptSync(password, salt, 64).toString("hex"); return `scrypt:${salt}:${hash}`; }
+export function verifyStaffPassword(password: string, stored: string) { const [version, salt, expectedHex] = stored.split(":"); if (version !== "scrypt" || !salt || !expectedHex) return false; try { const expected = Buffer.from(expectedHex, "hex"), supplied = scryptSync(password, salt, expected.length); return expected.length > 0 && expected.length === supplied.length && timingSafeEqual(expected, supplied); } catch { return false; } }

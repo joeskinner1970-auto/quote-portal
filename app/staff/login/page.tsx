@@ -11,7 +11,7 @@ export default async function StaffLoginPage() {
     <div className={styles.loginBranding}><img className={styles.loginLogoImage} src="/dreamlease-logo.png" alt="DreamLease" /></div>
     <p className={styles.eyebrow}>Private staff area</p>
     <h1>Quote portal</h1>
-    <p>Sign in using the administrator password.</p>
+    <p>Sign in using your portal email address and password.</p>
     <LoginForm />
   </section></main>;
 }
