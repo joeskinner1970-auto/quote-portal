@@ -12,6 +12,7 @@ const border = rgb(175 / 255, 199 / 255, 232 / 255);
 const ink = rgb(20 / 255, 20 / 255, 20 / 255);
 const grey = rgb(102 / 255, 102 / 255, 102 / 255);
 const paleBlue = rgb(238 / 255, 244 / 255, 252 / 255);
+const dreamLeaseLegal = "DreamLease Limited T/A DreamLease is a credit broker and not a lender, we are authorised and regulated by the Financial Conduct Authority. Registered No: 673761. Registered in England & Wales with company number: 09033902 | Data Protection No: ZA135228 | VAT No: 252 3647 11 | BVRLA No: 7360. Registered Office: Unit C2A Comet Studios, De Havilland Court, Penn Street, Amersham, Bucks, HP7 0PX.";
 
 const safe = (value: unknown) => String(value || "-").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[\u2010-\u2015]/g, "-").replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').replace(/[^\x20-\x7e£]/g, "");
 const money = (value: number) => `£${(value || 0).toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -60,7 +61,7 @@ export async function createQuotePdf(input: QuoteInput, options: { quoteNumber?:
   };
   const leaseRow = (cells: string[], heading = false) => { const height = 23, colWidth = width / 4; ensure(height); cells.forEach((cell, index) => { const fill = heading ? blue : rgb(1,1,1), colour = heading ? rgb(1,1,1) : ink; page.drawRectangle({ x: left + index * colWidth, y: y - height, width: colWidth, height, color: fill, borderColor: border, borderWidth: .6 }); const size = 8; text(cell, left + index * colWidth + 6, y - height + 8, size, heading ? bold : index === 0 ? bold : regular, colour); }); y -= height; };
 
-  const logoHeight = logo ? logo.scaleToFit(isLeasing ? 180 : 165, isLeasing ? 50 : 34).height : 0; if (logo) { const scaled = logo.scaleToFit(isLeasing ? 180 : 165, isLeasing ? 50 : 34); page.drawImage(logo, { x:left, y:y-scaled.height+2, width:scaled.width, height:scaled.height }); } const contact=["F17, Building 330, Street 1, Westcott Venture Park, HP18 0NP","Telephone: 01865 20 30 40",`E-mail: ${options.salesEmail}`]; contact.forEach((part,index)=>text(part,left,y-logoHeight-7-index*10,8,regular,grey));
+  const logoHeight = logo ? logo.scaleToFit(isLeasing ? 180 : 165, isLeasing ? 50 : 34).height : 0; if (logo) { const scaled = logo.scaleToFit(isLeasing ? 180 : 165, isLeasing ? 50 : 34); page.drawImage(logo, { x:left, y:y-scaled.height+2, width:scaled.width, height:scaled.height }); } const contact=["Unit C2A Comet Studios, De Havilland Court, Penn Street, Amersham, Bucks, HP7 0PX",`E-mail: ${options.salesEmail}`]; contact.forEach((part,index)=>text(part,left,y-logoHeight-7-index*10,8,regular,grey));
   const meta = [options.draft ? "DRAFT - NOT SAVED" : `Quote Number: ${options.quoteReference || options.quoteNumber}`, `Date: ${date(input.quoteDate)}`, `Valid Until: ${date(input.validUntil)}`, `Quotation by: ${options.salesperson}`];
   meta.forEach((part,index)=>{ const font=index===0?bold:regular, colour=index===0?darkBlue:ink; text(part,left+width-font.widthOfTextAtSize(part,index===0?10:8.5),y-index*13,index===0?10:8.5,font,colour); });
   y-=isLeasing ? 94 : 78; line(y,2.3,blue); y-=25; text(quoteTitle,left,y,18,bold,darkBlue); y-=18;
@@ -97,11 +98,10 @@ export async function createQuotePdf(input: QuoteInput, options: { quoteNumber?:
   }
   }
 
-  const leasingLegal = "Automotivate Leasing Limited · Registered in England No. 16683839 · VAT No. 501552336 · Registered office: Montgomery House, Sheephouse Wood, Stocksbridge, Sheffield, S36 4GS. FCA Reference Number 1043065. Automotivate Leasing Limited is an independent credit broker, not a lender, and may receive commission for introducing you to a funder. Automotivate Leasing Limited is an Appointed Representative of Fleet Alliance Limited. Fleet Alliance Limited is authorised and regulated by the Financial Conduct Authority (reference 673150). Not all types of business undertaken are authorised and regulated by the Financial Conduct Authority. Fleet Alliance Limited · Registered in Scotland No. SC235634 · Registered address: Skypark 1, 8 Elliot Place, Glasgow, G3 8EP. Fleet Alliance Limited is an independent credit broker, not a lender, and may receive commission for introducing you to a funder. See its Terms of Business: https://www.fleetalliance.co.uk/legal-information/.";
-  const terms = isLeasing ? leasingLegal : input.quoteType === "sales" ? `Terms & Conditions. ${salesTermsPdfText}` : "Automotivate Fleet Solutions Ltd · Registered in England No. 16707642 · Registered office: Montgomery House, Sheephouse Wood, Stocksbridge, Sheffield, S36 4GS.";
+  const terms = input.quoteType === "sales" ? `Terms & Conditions. ${salesTermsPdfText} ${dreamLeaseLegal}` : dreamLeaseLegal;
   const termLines=wrap(terms,regular,6.8,width), termHeight=termLines.length*9+18; ensure(termHeight); y-=16; line(y,2.3,blue); y-=17; termLines.forEach((part,index)=>text(part,left,y-index*9,6.8,index===0?bold:regular,grey));
   const pages=pdf.getPages(); pages.forEach((item,index)=>{const label=`Page ${index+1} of ${pages.length}`;item.drawText(label,{x:A4[0]-40-regular.widthOfTextAtSize(label,7),y:23,size:7,font:regular,color:grey});});
-  pdf.setTitle(`${options.draft ? "Draft" : `Quote ${options.quoteReference || options.quoteNumber}`} - ${input.customerCompany}`); pdf.setAuthor("Automotivate Fleet Solutions Ltd"); pdf.setCreator("Automotivate quote portal");
+  pdf.setTitle(`${options.draft ? "Draft" : `Quote ${options.quoteReference || options.quoteNumber}`} - ${input.customerCompany}`); pdf.setAuthor("DreamLease Limited"); pdf.setCreator("DreamLease quote portal");
   return pdf.save();
 }
 
@@ -119,6 +119,6 @@ export async function createFallbackQuotePdf(input: QuoteInput, options: { quote
   if (input.quoteType === "asset-finance") { draw(`Asset details: ${input.assetDetails}`); draw(`Finance commission: ${money(input.financeCommission)}`, 11, bold); }
   else if (input.quoteType === "leasing" || input.quoteType === "finance-lease") { const initial=(input.financeMonthlyRental + input.serviceMonthlyRental) * input.paymentProfileInitial, monthly=input.financeMonthlyRental + input.serviceMonthlyRental; draw(`Vehicle: ${input.vehicleMake} ${input.vehicleModel} ${input.vehicleVariant}`); draw(`Term: ${input.termMonths} months`); draw(`Total initial rental: ${money(initial)} + VAT`, 11, bold); draw(`Total monthly rental: ${money(monthly)} + VAT`, 11, bold); if (input.quoteType === "finance-lease") draw(`Final balloon payment: ${money(input.finalBalloonPayment)} + VAT`, 11, bold); }
   else { const totals = calculateQuote(input); draw(`Vehicle: ${input.vehicleMake} ${input.vehicleModel} ${input.vehicleVariant}`); draw(`Basic list price: ${money(totals.listPrice)}`); draw(`TOTAL DUE: ${money(totals.orderTotal)}`, 12, bold); }
-  draw(`Quotation by: ${options.salesperson}`); draw(`E-mail: ${options.salesEmail}`);
+  draw(`Quotation by: ${options.salesperson}`); draw(`E-mail: ${options.salesEmail}`); y -= 8; draw(dreamLeaseLegal, 7);
   return pdf.save();
 }
