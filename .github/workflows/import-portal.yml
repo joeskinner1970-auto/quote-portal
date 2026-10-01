@@ -10,10 +10,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Expand the portal source
         run: |
-          unzip -o portal-address-075747.zip || unzip_code=$?
+          unzip -o portal-quantity-080311.zip || unzip_code=$?
           if [ "${unzip_code:-0}" -gt 1 ]; then exit "$unzip_code"; fi
           git config user.name 'GitHub Actions'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add app sanity public globals.css package.json pnpm-lock.yaml pnpm-workspace.yaml next-env.d.ts next.config.ts postcss.config.mjs .env.example README.md tsconfig.json
-          git diff --cached --quiet || git commit -m 'Update quote contact address'
+          git diff --cached --quiet || git commit -m 'Move vehicle quantity field'
           git push
