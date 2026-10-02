@@ -84,7 +84,7 @@ export async function POST(request: Request) {
       ? await getActiveStaffUser(requestedSalespersonEmail)
       : { name: session.name, email: session.email, hubspotUserId: session.hubspotUserId };
     if (!quoteCreator) return NextResponse.json({ error: "Select an active portal user as the salesperson." }, { status: 400 });
-    if (!sourceId && (!hubspotCompanyId || !hubspotContactId)) return NextResponse.json({ error: "Select the customer company and contact from HubSpot." }, { status: 400 });
+
     const validationError = validateQuote(quote);
     if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
     const totals = calculateQuote(quote);
