@@ -73,6 +73,7 @@ export async function POST(request:NextRequest) {
   if(typeof number!=="string"||!/^[A-Z0-9]{8}$/.test(number))return reply("Invalid company number.",400);
   try{
    const upstream=await fetch("https://api.endole.co.uk/company/"+number+"/profile",{headers:{Authorization:"Bearer "+key,Accept:"application/json"},cache:"no-store",redirect:"error",signal:AbortSignal.timeout(12000)});
+   if(upstream.status===402)return reply("Endole requires payment for this lookup (402). Check the live API credit balance and Company Profile access for this key at app.endole.co.uk/api.",402);
    if(!upstream.ok)return reply(upstream.status===404?"No Endole profile for this company number.":"Endole returned HTTP "+upstream.status+". Check API access, credits or rate limits.",502);
    const profile=await upstream.json();
    return NextResponse.json({profile},{headers:{"Cache-Control":"private, no-store"}});
